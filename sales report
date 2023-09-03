@@ -1,0 +1,47 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace BagelShop
+{
+    public partial class SalesReport : Form
+    {
+        public SalesReport()
+        {
+            InitializeComponent();
+        }
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        //Loadreport method to fetch sales report by passing array of bagel type,size, stocks,and stock prices. 
+        public void Loadreport(String[] BagelStock, String[] StockSizes, int[,] OpeningStock, int[,] ClosingStock, decimal[,] Stockprice)
+        {
+            //declaration of local variables
+            int QtySold;
+            decimal Prices;
+
+            //for loop to iterate the the stock values 
+            for (int i = 0; i < BagelStock.Length; i++)
+            {
+                SalesReportListBox.Items.Add("-------------------------------------------------------------------------------------------------------------------------------");
+                for (int j = 0; j < StockSizes.Length; j++)
+                {
+                    //calculation to load sales report
+                    QtySold = ClosingStock[i, j] - OpeningStock[i, j];
+                    Prices = QtySold * (Stockprice[i, j]);
+                    SalesReportListBox.Items.Add(BagelStock[i] + "\t\t" + StockSizes[j] + "\t\t\t" + QtySold + "\t\t" + Prices);
+                }
+            }
+            MessageBox.Show("Sales Report Generated","Sales Report",MessageBoxButtons.OK,MessageBoxIcon.Information);
+        }
+    }
+}
